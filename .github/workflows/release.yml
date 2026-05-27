@@ -172,13 +172,13 @@ jobs:
       - name: Check Assets and Upload
         id: check-assets
         run: |
-          if [ -f "./UnleashedRecompLib/private/default.xex" ] && [ -f "./UnleashedRecompLib/private/shader.ar" ]; then
+          if [ -f "./UnleashedRecompLib/private/default.xex" ]; then
             echo "has_assets=true" >> $GITHUB_OUTPUT
             echo "Assets found, uploading..."
           else
             echo "has_assets=false" >> $GITHUB_OUTPUT
             if [ "${{ github.event_name }}" == "workflow_dispatch" ] || [ "${{ env.ASSET_REPO }}" != "" ]; then
-              echo "Error: Mandatory assets (default.xex, shader.ar) missing after extraction."
+              echo "Error: Mandatory assets (default.xex) missing after extraction."
               false
             else
               echo "Warning: Mandatory assets missing."
