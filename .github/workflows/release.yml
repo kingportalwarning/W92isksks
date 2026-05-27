@@ -169,6 +169,11 @@ jobs:
           # Cleanup empty directories
           find ./UnleashedRecompLib/private -depth -type d -empty -delete 2>/dev/null || true
 
+          - name: Debug Extracted Files
+          run: |
+            echo "=== PRIVATE DIRECTORY ==="
+            find ./UnleashedRecompLib/private -type f | head -200
+
       - name: Check Assets and Upload
         id: check-assets
         run: |
