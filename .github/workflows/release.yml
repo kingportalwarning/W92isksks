@@ -185,6 +185,23 @@ jobs:
             fi
           fi
 
+          - - name: Sanitize filenames (fix upload-artifact crash)
+          if: steps.check-assets.outputs.has_assets == 'true'
+         run: |
+         echo "Cleaning invalid filenames..."
+
+         find ./UnleashedRecompLib/private -depth -type f | while read -r file; do
+         dir=$(dirname "$file")
+         base=$(basename "$file")
+
+         clean=$(echo "$base" | sed 's/[?&=]//g')
+
+         if [ "$base" != "$clean" ]; then
+         echo "Renaming: $file -> $dir/$clean"
+         mv "$file" "$dir/$clean"
+         fi
+         done
+
       - name: Upload Prepared Assets
         if: steps.check-assets.outputs.has_assets == 'true'
         uses: actions/upload-artifact@v4
